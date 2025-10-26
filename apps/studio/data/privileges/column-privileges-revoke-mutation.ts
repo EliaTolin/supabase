@@ -1,9 +1,9 @@
-import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import type { components } from 'data/api'
-import type { ResponseError } from 'types'
 import pgMeta from '@supabase/pg-meta'
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query'
+import type { components } from 'data/api'
 import { executeSql } from 'data/sql/execute-sql-query'
+import { toast } from 'sonner'
+import type { ResponseError } from 'types'
 import { privilegeKeys } from './keys'
 
 export type ColumnPrivilegesRevoke = components['schemas']['RevokeColumnPrivilegesBody']
@@ -55,7 +55,7 @@ export const useColumnPrivilegesRevokeMutation = ({
       const { projectRef } = variables
 
       await Promise.all([
-        queryClient.invalidateQueries(privilegeKeys.columnPrivilegesList(projectRef)),
+        queryClient.invalidateQueries({ queryKey: privilegeKeys.columnPrivilegesList(projectRef) }),
       ])
 
       await onSuccess?.(data, variables, context)
